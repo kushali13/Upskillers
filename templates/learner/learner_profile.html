@@ -1,0 +1,80 @@
+{% extends "learner/learner_base.html" %}
+{% load static %}
+{% block title %}Learner Profile{% endblock %}
+{% block content %}
+
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <h2 class="text-primary">Learner Profile</h2>
+        <table class="table table-bordered">
+            <tr>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Courses</th>
+                <td><input type="text" name="courses" id="courses" value="{{ learner_profile.courses|default_if_none:'' }}"></td>
+            </tr>
+            <tr>
+                <th>Age</th>
+                <td><input type="number" name="age" id="age" value="{{ learner_profile.age|default_if_none:'' }}"></td>
+            </tr>
+            <tr>
+                <th>State</th>
+                <td><input type="text" name="state" id="state" value="{{ learner_profile.state|default_if_none:'' }}"></td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td><input type="text" name="city" id="city" value="{{ learner_profile.city|default_if_none:'' }}"></td>
+            </tr>
+        </table>
+        <button id="editButton" class="btn btn-primary">Edit</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let editButton = document.getElementById("editButton");
+
+            if (editButton) { 
+                editButton.addEventListener("click", function () {
+                    let courses = document.getElementById("courses").value;
+                    let age = document.getElementById("age").value;
+                    let state = document.getElementById("state").value;
+                    let city = document.getElementById("city").value;
+
+                    fetch("{% url 'update_learner_profile' %}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRFToken": "{{ csrf_token }}"
+                        },
+                        body: JSON.stringify({
+                            courses: courses,
+                            age: age,
+                            state: state,
+                            city: city
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Profile updated successfully!");
+                        } else {
+                            alert("Error updating profile.");
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+                });
+            } else {
+                console.error("Edit button not found!");
+            }
+        });
+    </script>
+{% endblock %}
+</body>
+</html>
