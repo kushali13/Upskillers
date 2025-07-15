@@ -4,55 +4,209 @@
 
 {% block title %}About Us{% endblock %}
 {% block content %}
-<!-- About Section -->
-    <div class="container mt-5">
-        <h1 class="text-center fw-bold">About UpSkillers</h1>
-        <p class="text-center text-muted">Empowering learners with skill-based education.</p>
-
-        <div class="row mt-4">
+<!-- About Section - Light Theme -->
+<div class="about-section-light">
+    <div class="container">
+        <div class="about-header-light">
+            <h1 class="about-title-light">About <span class="highlight-text">UpSkillers</span></h1>
+            <p class="about-subtitle-light">Empowering learners with skill-based education.</p>
+        </div>
+        <div class="row align-items-center mt-4">
             <div class="col-lg-6 text-center">
-                <img src="{% static 'images/aboutus.avif' %}" class="img-fluid rounded shadow w-75" alt="About Us">
-            </div>            
+                <div class="about-img-card-light">
+                    <img src="{% static 'images/aboutus.avif' %}" class="about-img-light" alt="About Us">
+                </div>
+            </div>
             <div class="col-lg-6">
-                <h2>Our Mission</h2>
-                <p>At UpSkillers, we aim to bridge the gap between knowledge and real-world skills. Our platform offers expertly crafted courses designed to equip learners with industry-relevant expertise.</p>
-                <h2>Why Choose Us?</h2>
-                <ul>
-                    <li>Expert Instructors</li>
-                    <li>Flexible Learning</li>
-                    <li>Real-World Projects</li>
-                    <li>Community Support</li>
-                </ul>
+                <div class="about-info-card-light">
+                    <h2 class="about-mission-title-light">Our Mission</h2>
+                    <p class="about-mission-text-light">At UpSkillers, we aim to bridge the gap between knowledge and real-world skills. Our platform offers expertly crafted courses designed to equip learners with industry-relevant expertise.</p>
+                    <h2 class="about-mission-title-light">Why Choose Us?</h2>
+                    <ul class="about-list-light">
+                        <li><i class="fas fa-user-tie"></i> Expert Instructors</li>
+                        <li><i class="fas fa-clock"></i> Flexible Learning</li>
+                        <li><i class="fas fa-project-diagram"></i> Real-World Projects</li>
+                        <li><i class="fas fa-users"></i> Community Support</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Team Section -->
-    <div class="container mt-5">
-        <h2 class="text-center">Meet Our Team</h2>
-        <div class="row text-center">
+<!-- Team Section - Light Theme -->
+<div class="team-section-light">
+    <div class="container">
+        <h2 class="team-title-light text-center mb-5">Meet Our Team</h2>
+        <div class="row justify-content-center g-4">
             <div class="col-md-3">
-                <img src="{% static 'images/team1.jpg' %}" class="rounded-circle mb-2" width="100" alt="Team Member">
-                <h5>Virendrasingh</h5>
-                <p>Founder & Developer</p>
+                <div class="team-card-light">
+                    <img src="{% static 'images/team1.jpg' %}" class="team-img-light" alt="Team Member">
+                    <h5 class="team-name-light">Virendrasingh</h5>
+                    <p class="team-role-light">Founder & Developer</p>
+                </div>
             </div>
             <div class="col-md-3">
-                <img src="{% static 'images/team2.jpg' %}" class="rounded-circle mb-2" width="100" alt="Team Member">
-                <h5>Kavya</h5>
-                <p>UI/UX Designer</p>
+                <div class="team-card-light">
+                    <img src="{% static 'images/team2.jpg' %}" class="team-img-light" alt="Team Member">
+                    <h5 class="team-name-light">Kavya</h5>
+                    <p class="team-role-light">UI/UX Designer</p>
+                </div>
             </div>
             <div class="col-md-3">
-                <img src="{% static 'images/team3.jpg' %}" class="rounded-circle mb-2" width="100" alt="Team Member">
-                <h5>Kushali</h5>
-                <p>Backend Engineer</p>
+                <div class="team-card-light">
+                    <img src="{% static 'images/team3.jpg' %}" class="team-img-light" alt="Team Member">
+                    <h5 class="team-name-light">Kushali</h5>
+                    <p class="team-role-light">Backend Engineer</p>
+                </div>
             </div>
             <div class="col-md-3">
-                <img src="{% static 'images/team3.jpg' %}" class="rounded-circle mb-2" width="100" alt="Team Member">
-                <h5>Khushi</h5>
-                <p>Backend Engineer</p>
+                <div class="team-card-light">
+                    <img src="{% static 'images/team3.jpg' %}" class="team-img-light" alt="Team Member">
+                    <h5 class="team-name-light">Khushi</h5>
+                    <p class="team-role-light">Backend Engineer</p>
+                </div>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Light Theme About CSS -->
+<style>
+.about-section-light {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 4rem 0 2rem 0;
+    border-top: none;
+    box-shadow: none;
+}
+.about-header-light {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+.about-title-light {
+    font-size: 2.7rem;
+    font-weight: 800;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+.highlight-text {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.about-subtitle-light {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    font-weight: 500;
+}
+.about-img-card-light {
+    background: rgba(255,255,255,0.9);
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+.about-img-light {
+    width: 80%;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(102,126,234,0.08);
+}
+.about-info-card-light {
+    background: rgba(255,255,255,0.95);
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+}
+.about-mission-title-light {
+    color: #667eea;
+    font-weight: 700;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+.about-mission-text-light {
+    color: #2c3e50;
+    font-size: 1.05rem;
+    margin-bottom: 1.2rem;
+}
+.about-list-light {
+    list-style: none;
+    padding: 0;
+}
+.about-list-light li {
+    color: #7f8c8d;
+    font-size: 1rem;
+    margin-bottom: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+.about-list-light i {
+    color: #667eea;
+    font-size: 1.1rem;
+}
+.team-section-light {
+    background: rgba(255,255,255,0.5);
+    padding: 4rem 0 2rem 0;
+}
+.team-title-light {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #2c3e50;
+    margin-bottom: 2.5rem;
+}
+.team-card-light {
+    background: rgba(255,255,255,0.95);
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    padding: 2rem 1rem 1.5rem 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+.team-card-light:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(102,126,234,0.13);
+}
+.team-img-light {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 20px rgba(102,126,234,0.08);
+}
+.team-name-light {
+    color: #667eea;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+.team-role-light {
+    color: #7f8c8d;
+    font-size: 0.95rem;
+}
+@media (max-width: 768px) {
+    .about-title-light {
+        font-size: 2rem;
+    }
+    .about-img-light {
+        width: 100%;
+    }
+    .about-info-card-light {
+        padding: 1rem;
+    }
+    .team-title-light {
+        font-size: 1.5rem;
+    }
+    .team-card-light {
+        padding: 1.2rem 0.5rem 1rem 0.5rem;
+    }
+}
+</style>
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3 mt-5">

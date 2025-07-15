@@ -1,8 +1,183 @@
 {% extends 'learner/learner_base.html' %}
 {% block content %}
-<div class="container text-center mt-5">
-    <h2 class="text-success">✅ Payment Successful!</h2>
-    <p>You are now enrolled in <strong>{{ course.title }}</strong>.</p>
-    <a href="{% url 'course_detail' course.id %}" class="btn btn-primary">Go to Course</a>
+<div class="payment-success-light">
+    <div class="container">
+        <div class="success-card-light">
+            <div class="success-icon-light">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="success-title-light">✅ Payment Successful!</h2>
+            <p class="success-message-light">You are now enrolled in <strong>{{ course.title }}</strong>.</p>
+            <div class="success-actions-light">
+                <a href="{% url 'course_detail' course.id %}" class="success-btn-light">
+                    <i class="fas fa-play me-2"></i>
+                    Go to Course
+                </a>
+                <a href="{% url 'learner_my_courses' %}" class="success-btn-secondary-light">
+                    <i class="fas fa-graduation-cap me-2"></i>
+                    My Courses
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- Light Theme CSS -->
+<style>
+.payment-success-light {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.payment-success-light::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(255, 182, 193, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(173, 216, 230, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 218, 185, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.success-card-light {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(25px);
+    border-radius: 30px;
+    padding: 3rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    animation: slideInUp 0.6s ease-out;
+}
+
+.success-icon-light {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    color: white;
+    font-size: 3rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.success-title-light {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.success-message-light {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.success-actions-light {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.success-btn-light {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    display: inline-flex;
+    align-items: center;
+}
+
+.success-btn-light:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.success-btn-secondary-light {
+    background: rgba(255, 255, 255, 0.9);
+    color: #667eea;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    display: inline-flex;
+    align-items: center;
+}
+
+.success-btn-secondary-light:hover {
+    background: rgba(102, 126, 234, 0.1);
+    transform: translateY(-3px);
+    color: #667eea;
+    text-decoration: none;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+    }
+    50% { 
+        transform: scale(1.05);
+        box-shadow: 0 0 0 20px rgba(102, 126, 234, 0);
+    }
+}
+
+@media (max-width: 768px) {
+    .success-card-light {
+        margin: 1rem;
+        padding: 2rem;
+    }
+    
+    .success-title-light {
+        font-size: 2rem;
+    }
+    
+    .success-actions-light {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+</style>
 {% endblock %}

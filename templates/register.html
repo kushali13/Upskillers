@@ -4,61 +4,534 @@
 {% block title %}Register | UpSkillers{% endblock %}
 
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center min-vh-80">
-    <div class="card shadow-lg p-5 rounded auth-card">
-        <h3 class="text-center mb-4">Create an Account</h3>
-        <form method="POST">
-            {% csrf_token %}
-            
-            <!-- Username Field -->
-            <div class="input-group mb-3">
-                <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-                <input type="text" name="username" class="form-control" placeholder="Username" required>
-            </div>
-
-            <!-- Email Field -->
-            <div class="input-group mb-3">
-                <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
-                <input type="email" name="email" class="form-control" placeholder="Email" required>
-            </div>
-
-            <!-- User Type Selection -->
-            <div class="mb-3">
-                <label class="form-label fw-bold">Register as:</label>
-                <div class="d-flex">
-                    <div class="form-check me-4">
-                        <input class="form-check-input" type="radio" name="user_type" value="learner" id="learner" checked>
-                        <label class="form-check-label" for="learner">Learner</label>
+<div class="register-page-light">
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="auth-card-light">
+            <!-- Welcome Header -->
+            <div class="welcome-header-light">
+                <div class="welcome-content-light">
+                    <div class="welcome-text-light">
+                        <h1 class="welcome-title-light">
+                            Join <span class="highlight-text">UpSkillers!</span> 👋
+                        </h1>
+                        <p class="welcome-subtitle-light">Start your learning journey and transform your career</p>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="user_type" value="instructor" id="instructor">
-                        <label class="form-check-label" for="instructor">Instructor</label>
+                    <div class="welcome-illustration-light">
+                        <div class="floating-elements-light">
+                            <div class="floating-icon-light">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="floating-icon-light">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="floating-icon-light">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Password Field -->
-            <div class="input-group mb-3">
-                <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                <input type="password" name="password1" class="form-control" placeholder="Password" required>
+            <!-- Registration Form -->
+            <div class="form-container-light">
+                <form method="POST" class="register-form-light">
+                    {% csrf_token %}
+                    
+                    <!-- Username Field -->
+                    <div class="input-group-custom-light">
+                        <div class="input-icon-light">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <input type="text" name="username" class="form-input-light" placeholder="Choose your username" required>
+                    </div>
+                    
+                    <!-- Email Field -->
+                    <div class="input-group-custom-light">
+                        <div class="input-icon-light">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <input type="email" name="email" class="form-input-light" placeholder="Enter your email" required>
+                    </div>
+
+                    <!-- User Type Selection -->
+                    <div class="user-type-section-light">
+                        <label class="user-type-label-light">
+                            <i class="fas fa-users me-2"></i>
+                            Register as:
+                        </label>
+                        <div class="user-type-options-light">
+                            <div class="user-type-option-light">
+                                <input type="radio" name="user_type" value="learner" id="learner" checked>
+                                <label for="learner" class="user-type-card-light">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    <span>Learner</span>
+                                    <small>Start learning courses</small>
+                                </label>
+                            </div>
+                            <div class="user-type-option-light">
+                                <input type="radio" name="user_type" value="instructor" id="instructor">
+                                <label for="instructor" class="user-type-card-light">
+                                    <i class="fas fa-chalkboard-teacher"></i>
+                                    <span>Instructor</span>
+                                    <small>Create and teach courses</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Password Field -->
+                    <div class="input-group-custom-light">
+                        <div class="input-icon-light">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <input type="password" name="password1" class="form-input-light" placeholder="Create a password" required>
+                    </div>
+                    
+                    <!-- Confirm Password Field -->
+                    <div class="input-group-custom-light">
+                        <div class="input-icon-light">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <input type="password" name="password2" class="form-input-light" placeholder="Confirm your password" required>
+                    </div>
+                    
+                    <button type="submit" class="register-btn-light">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Create Account
+                    </button>
+                </form>
+
+                <!-- Additional Links -->
+                <div class="form-links-light">
+                    <div class="divider-light">
+                        <span>or</span>
+                    </div>
+                    <p class="login-text-light">
+                        Already have an account? 
+                        <a href="{% url 'user_login' %}" class="login-link-light">
+                            <i class="fas fa-sign-in-alt me-1"></i>
+                            Sign In
+                        </a>
+                    </p>
+                </div>
             </div>
-
-            <!-- Confirm Password Field -->
-            <div class="input-group mb-3">
-                <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                <input type="password" name="password2" class="form-control" placeholder="Confirm Password" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100">Register</button>
-        </form>
-
-        <p class="text-center mt-3">Already have an account?  
-            <a href="{% url 'user_login' %}" class="text-decoration-none fw-bold">Login here</a>
-        </p>
+        </div>
     </div>
 </div>
 
-<!-- Bootstrap Icons -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+<!-- Light Theme CSS -->
+<style>
+/* Register Page Light Theme */
+.register-page-light {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 2rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.register-page-light::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(255, 182, 193, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(173, 216, 230, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 218, 185, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.auth-card-light {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(25px);
+    border-radius: 30px;
+    padding: 3rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+.welcome-header-light {
+    margin-bottom: 2.5rem;
+}
+
+.welcome-content-light {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.welcome-text-light {
+    flex: 1;
+}
+
+.welcome-title-light {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.highlight-text {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.welcome-subtitle-light {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    font-weight: 500;
+    margin: 0;
+}
+
+.welcome-illustration-light {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.floating-elements-light {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.floating-icon-light {
+    position: absolute;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    animation: float 6s ease-in-out infinite;
+}
+
+.floating-icon-light:nth-child(1) {
+    top: 20%;
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.floating-icon-light:nth-child(2) {
+    top: 60%;
+    right: 20%;
+    animation-delay: 2s;
+}
+
+.floating-icon-light:nth-child(3) {
+    bottom: 20%;
+    left: 50%;
+    animation-delay: 4s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+.form-container-light {
+    position: relative;
+    z-index: 3;
+}
+
+.input-group-custom-light {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.input-icon-light {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #667eea;
+    font-size: 1.1rem;
+    z-index: 2;
+}
+
+.form-input-light {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    border-radius: 15px;
+    color: #2c3e50;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.form-input-light::placeholder {
+    color: #7f8c8d;
+}
+
+.form-input-light:focus {
+    outline: none;
+    border-color: #667eea;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+    transform: translateY(-2px);
+}
+
+.user-type-section-light {
+    margin-bottom: 2rem;
+}
+
+.user-type-label-light {
+    display: block;
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.user-type-options-light {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.user-type-option-light {
+    flex: 1;
+}
+
+.user-type-option-light input[type="radio"] {
+    display: none;
+}
+
+.user-type-card-light {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    color: #2c3e50;
+    font-weight: 600;
+    text-align: center;
+}
+
+.user-type-card-light i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #667eea;
+}
+
+.user-type-card-light span {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.user-type-card-light small {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    font-weight: 400;
+}
+
+.user-type-option-light input[type="radio"]:checked + .user-type-card-light {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    border-color: #667eea;
+    color: #667eea;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+}
+
+.user-type-card-light:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+    border-color: rgba(102, 126, 234, 0.4);
+}
+
+.register-btn-light {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 1.2rem;
+    border-radius: 15px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.register-btn-light::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.register-btn-light:hover::before {
+    left: 100%;
+}
+
+.register-btn-light:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.form-links-light {
+    text-align: center;
+}
+
+.divider-light {
+    position: relative;
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+.divider-light::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(102, 126, 234, 0.3);
+}
+
+.divider-light span {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 0 1rem;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+.login-text-light {
+    color: #2c3e50;
+    font-size: 1rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+}
+
+.login-link-light {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    gap: 0.2rem;
+}
+
+.login-link-light i {
+    font-size: 1rem;
+    vertical-align: middle;
+    margin-right: 0.2rem;
+    position: relative;
+    top: 0;
+}
+
+.login-link-light:hover {
+    color: #764ba2;
+    transform: translateY(-2px);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-decoration: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .welcome-content-light {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .welcome-title-light {
+        font-size: 2rem;
+    }
+    
+    .user-type-options-light {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .welcome-illustration-light {
+        display: none;
+    }
+    
+    .auth-card-light {
+        margin: 1rem;
+        padding: 2rem;
+    }
+}
+
+/* Animation Enhancements */
+.auth-card-light {
+    animation: slideInUp 0.6s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover Effects */
+.user-type-card-light:hover .user-type-card-light i {
+    transform: scale(1.1);
+}
+
+/* Focus States */
+.form-input-light:focus + .input-icon-light {
+    color: #667eea;
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Custom Radio Button Animation */
+.user-type-option-light input[type="radio"]:checked + .user-type-card-light i {
+    animation: pulse 0.6s ease-in-out;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+</style>
 
 {% endblock %}

@@ -19,8 +19,6 @@ def logout_and_redirect(request):
     return redirect('user_login') 
 
 def home(request):
-    if request.user.is_authenticated:
-        return logout_and_redirect(request)  # Auto logout if logged in   
     featured_courses = Course.objects.filter(is_featured=True)[:3]  # Fetch only 3 featured courses
     return render(request, 'index.html', {'featured_courses': featured_courses})
 
@@ -279,8 +277,12 @@ def learner(request):
 
 @login_required
 def learner_profile(request):
-    learner_profile = LearnerProfile.objects.get_or_create(user=request.user)
-    return render(request, 'learner/learner_profile.html', {'learner_profile': learner_profile})
+    learner_profile, created = LearnerProfile.objects.get_or_create(user=request.user)
+    enrolled_courses = request.user.enrolled_courses.all()
+    return render(request, 'learner/learner_profile.html', {
+        'learner_profile': learner_profile,
+        'enrolled_courses': enrolled_courses
+    })
 
 @login_required
 def update_learner_profile(request):
@@ -288,18 +290,18 @@ def update_learner_profile(request):
         data = json.loads(request.body)
         learner_profile, created = LearnerProfile.objects.get_or_create(user=request.user)
         
-        learner_profile.courses = data.get("courses", learner_profile.courses)
         learner_profile.age = data.get("age", learner_profile.age)
         learner_profile.state = data.get("state", learner_profile.state)
         learner_profile.city = data.get("city", learner_profile.city)
-        
+        if "bio" in data:
+            learner_profile.bio = data["bio"]
         learner_profile.save()
         return JsonResponse({"success": True})
     
     return JsonResponse({"success": False})
 
 
-razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+razpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
 
 def create_order(request, course_id):

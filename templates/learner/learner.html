@@ -9,75 +9,113 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
-<body>
+<body class="learner-body-light">
 
-    <nav class="navbar navbar-expand-lg custom-navbar">
-        <div class="container">
-            
-            <a class="navbar-brand" href="#">UpSkillers</a>
-
-            <a class="navbar-brand ms-4" href="#">Courses</a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav align-items-center">                   
+    <nav class="learner-navbar-light">
+        <div class="nav-container nav-flex">
+            <div class="nav-brand-left">
+                <a class="nav-brand" href="#">
+                    <i class="fas fa-graduation-cap me-2"></i>
+                    UpSkillers
+                </a>
+            </div>
+            <div class="nav-flex-spacer"></div>
+            <div class="nav-collapse" id="navbarNav">
+                <ul class="nav-menu">
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <i class="fa-regular fa-heart fa-lg"></i> 
+                            <i class="fas fa-book me-2"></i>
+                            Courses
                         </a>
                     </li>
-
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle ms-3" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fa-regular fa-user fa-lg"></i> 
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-2"></i>
+                            Profile
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'learner_profile' %}">View Profile</a></li>
-
+                            <li><a class="dropdown-item" href="{% url 'learner_profile' %}">
+                                <i class="fas fa-user me-2"></i>
+                                View Profile
+                            </a></li>
                         </ul>
                     </li>
-
                     <li class="nav-item">
-                        <a class="nav-link my-courses-link ms-3" href="{% url 'learner_my_courses' %}">My Courses</a>
+                        <a class="nav-link" href="{% url 'learner_my_courses' %}">
+                            <i class="fas fa-graduation-cap me-2"></i>
+                            My Courses
+                        </a>
                     </li>
-
-                    <li class="nav-item ms-3">
-                        <a class="btn custom-btn" href="{% url 'logout' %}">Logout</a>
+                    <li class="nav-item">
+                        <a class="nav-btn" href="{% url 'logout' %}">
+                            <i class="fas fa-sign-out-alt me-2"></i>
+                            Logout
+                        </a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-
-    <div class="container my-5">
-        <h2 class="text-center mb-4">All Courses</h2>
-    
-        <!-- Filter Section -->
-        <div class="text-center mb-4">
-            <input type="text" id="searchBox" class="form-control w-50 mx-auto" placeholder="Search courses...">
-        </div>
-    
-        <!-- Courses Grid -->
-        <div class="row" id="coursesContainer">
-            {% for course in courses %}
-            <div class="col-md-4 course-card">
-                <div class="card">
-                    <img src="{{ course.image.url }}" style="height: 200px; width: 100%; object-fit: cover;" class="card-img-top" alt="{{ course.title }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ course.title }}</h5>
-                        <p class="card-text">{{ course.description|truncatewords:15 }}</p>
-                        <a href="{% url 'learner_course_detail' course.id %}" class="btn btn-info">View Course</a>
-                    </div>
+    <div class="learner-content-light">
+        <div class="container">
+            <div class="page-header-light">
+                <h2 class="page-title-light">
+                    <i class="fas fa-book-open me-2"></i>
+                    All Courses
+                </h2>
+                <p class="page-subtitle-light">Discover amazing courses to enhance your skills</p>
+            </div>
+        
+            <!-- Filter Section -->
+            <div class="search-section-light">
+                <div class="search-container-light">
+                    <i class="fas fa-search search-icon-light"></i>
+                    <input type="text" id="searchBox" class="search-input-light" placeholder="Search courses...">
                 </div>
             </div>
-            {% empty %}
+        
+            <!-- Courses Grid -->
+            <div class="courses-grid-light" id="coursesContainer">
+                {% for course in courses %}
+                <div class="course-card-light">
+                    <div class="course-image-light">
+                        <img src="{{ course.image.url }}" alt="{{ course.title }}" style="width: 200px; height: 200px; object-fit: cover; display: block; margin: 0 auto;">
+                        <div class="course-overlay-light">
+                            <div class="course-badge-light">
+                                <i class="fas fa-star"></i> Featured
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-content-light">
+                        <div class="course-category-light">
+                            <i class="fas fa-tag"></i> Programming
+                        </div>
+                        <h5 class="course-title-light">{{ course.title }}</h5>
+                        <p class="course-description-light">{{ course.description|truncatewords:15 }}</p>
+                        <div class="course-meta-light">
+                            <span><i class="fas fa-clock"></i> 8 hours</span>
+                            <span><i class="fas fa-user"></i> 1.2k students</span>
+                            <span><i class="fas fa-star"></i> 4.8</span>
+                        </div>
+                        <div class="course-footer-light">
+                            <span class="course-price-light">₹{{ course.price }}</span>
+                            <a href="{% url 'learner_course_detail' course.id %}" class="course-btn-light">
+                                <i class="fas fa-eye me-1"></i>View Course
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="empty-state-light">
+                    <div class="empty-icon-light">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h4>No courses available</h4>
+                    <p>We're working on bringing you amazing courses. Check back soon!</p>
+                </div>
+                {% endfor %}
             </div>
-            <p class="text-center">No courses available at the moment.</p>
-            {% endfor %}
         </div>
     </div>
     
@@ -85,10 +123,10 @@
     <script>
         document.getElementById('searchBox').addEventListener('keyup', function () {
             let filter = this.value.toLowerCase();
-            let courseCards = document.querySelectorAll('.course-card');
+            let courseCards = document.querySelectorAll('.course-card-light');
     
             courseCards.forEach(function (card) {
-                let title = card.querySelector('.card-title').textContent.toLowerCase();
+                let title = card.querySelector('.course-title-light').textContent.toLowerCase();
                 if (title.includes(filter)) {
                     card.style.display = "block";
                 } else {
@@ -97,6 +135,407 @@
             });
         });
     </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Light Theme CSS -->
+    <style>
+    .learner-body-light {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .learner-navbar-light {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 2px 20px rgba(102, 126, 234, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        padding: 0.5rem 0;
+    }
+
+    .nav-container.nav-flex {
+        width: 100%;
+        padding: 0 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .nav-brand-left {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+    }
+
+    .nav-flex-spacer {
+        flex: 1 1 auto;
+    }
+
+    .nav-brand {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #667eea;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+
+    .nav-brand:hover {
+        color: #764ba2;
+        transform: translateY(-1px);
+        text-decoration: none;
+    }
+
+    .nav-collapse {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .nav-menu {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    .nav-item {
+        position: relative;
+    }
+
+    .nav-link {
+        color: #4b5563;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 0.4rem 0.6rem;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+    }
+
+    .nav-link:hover {
+        color: #667eea;
+        background: rgba(102, 126, 234, 0.1);
+        transform: translateY(-1px);
+        text-decoration: none;
+    }
+
+    .nav-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        white-space: nowrap;
+        font-size: 0.85rem;
+    }
+
+    .nav-btn:hover {
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        text-decoration: none;
+    }
+
+    .dropdown-menu {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .dropdown-item {
+        color: #4b5563;
+        text-decoration: none;
+        padding: 0.7rem 1rem;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+    }
+
+    .dropdown-item:hover {
+        background: rgba(102, 126, 234, 0.1);
+        color: #667eea;
+        text-decoration: none;
+    }
+
+    .learner-content-light {
+        padding: 2rem 0;
+        min-height: calc(100vh - 80px);
+    }
+
+    .page-header-light {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .page-title-light {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+
+    .page-subtitle-light {
+        font-size: 1.1rem;
+        color: #7f8c8d;
+        margin: 0;
+    }
+
+    .search-section-light {
+        margin-bottom: 3rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .search-container-light {
+        position: relative;
+        max-width: 500px;
+        width: 100%;
+    }
+
+    .search-icon-light {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #667eea;
+        font-size: 1.1rem;
+    }
+
+    .search-input-light {
+        width: 100%;
+        padding: 1rem 1rem 1rem 3rem;
+        background: rgba(255, 255, 255, 0.9);
+        border: 2px solid rgba(102, 126, 234, 0.2);
+        border-radius: 15px;
+        color: #2c3e50;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+
+    .search-input-light:focus {
+        outline: none;
+        border-color: #667eea;
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .courses-grid-light {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+    }
+
+    .course-card-light {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .course-card-light:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .course-image-light {
+        width: 200px;
+        height: 200px;
+        overflow: hidden;
+        margin: 0 auto;
+    }
+
+    .course-image-light img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .course-overlay-light {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+
+    .course-badge-light {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .course-content-light {
+        padding: 1.5rem;
+    }
+
+    .course-category-light {
+        color: #667eea;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .course-title-light {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+
+    .course-description-light {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+    }
+
+    .course-meta-light {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.8rem;
+        color: #7f8c8d;
+    }
+
+    .course-footer-light {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .course-price-light {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #667eea;
+    }
+
+    .course-btn-light {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .course-btn-light:hover {
+        transform: translateY(-2px);
+        color: white;
+        text-decoration: none;
+    }
+
+    .empty-state-light {
+        text-align: center;
+        padding: 3rem;
+        grid-column: 1 / -1;
+    }
+
+    .empty-icon-light {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        color: white;
+        font-size: 2.5rem;
+    }
+
+    .empty-state-light h4 {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state-light p {
+        color: #7f8c8d;
+        margin: 0;
+    }
+
+    @media (max-width: 768px) {
+        .nav-container.nav-flex {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 0 0.5rem;
+        }
+        
+        .nav-flex-spacer {
+            display: none;
+        }
+        
+        .nav-collapse {
+            width: 100%;
+            justify-content: flex-start;
+        }
+        
+        .nav-menu {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: stretch;
+        }
+        
+        .nav-link, .nav-btn {
+            justify-content: flex-start;
+        }
+        
+        .courses-grid-light {
+            grid-template-columns: 1fr;
+        }
+        
+        .page-title-light {
+            font-size: 2rem;
+        }
+    }
+
+    .learner-navbar-light {
+        animation: slideDown 0.5s ease-out;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -2,145 +2,413 @@
     {% load static %}
     {% block title %}Instructor Profile{% endblock %}
     {% block content %}
-        <div class="container mt-5">
-            <h2 class="text-primary">Instructor Profile</h2>
-                    <!-- Profile Picture Upload -->
-        <div class="text-center mb-4">
-            <img id="profileImage" src="{{ instructor_profile.profile_picture.url }}" class="rounded-circle shadow-lg" alt="Profile Picture" width="150" height="150">
-            <input type="file" id="profilePictureInput" class="form-control mt-2" accept="image/*">
-            <button id="uploadProfilePicture" class="btn btn-success mt-2">Upload Picture</button>
+    <div class="profile-page">
+        <div class="profile-container">
+            <div class="profile-card">
+                <div class="profile-header">
+                    <h2 class="profile-title">
+                        <i class="fas fa-user-circle me-2"></i>
+                        Instructor Profile
+                    </h2>
+                    <p class="profile-subtitle">Manage your profile information and settings</p>
+                </div>
+
+                <!-- Profile Picture Section -->
+                <div class="profile-picture-section">
+                    <div class="profile-picture-container">
+                        {% if instructor_profile.profile_picture %}
+                            <img id="profileImage" src="{{ instructor_profile.profile_picture.url }}" class="profile-picture" alt="Profile Picture">
+                        {% else %}
+                            <div class="profile-picture-placeholder">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="picture-upload">
+                        <input type="file" id="profilePictureInput" class="file-input" accept="image/*">
+                        <button id="uploadProfilePicture" class="upload-btn">
+                            <i class="fas fa-upload me-2"></i>
+                            Upload Picture
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Profile Form -->
+                <form class="profile-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" value="{{ user.username }}" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="first_name">First Name</label>
+                            <input type="text" name="first_name" id="first_name" value="{{ user.first_name|default_if_none:'' }}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" name="last_name" id="last_name" value="{{ user.last_name|default_if_none:'' }}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" value="{{ user.email }}" readonly>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="bio">Bio</label>
+                            <textarea name="bio" id="bio" rows="4" placeholder="Tell us about yourself...">{{ instructor_profile.bio|default_if_none:'' }}</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="experience">Experience (years)</label>
+                            <input type="number" name="experience" id="experience" value="{{ instructor_profile.experience|default_if_none:0 }}" min="0">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="skills">Skills</label>
+                            <input type="text" name="skills" id="skills" value="{{ instructor_profile.skills|default_if_none:'' }}" placeholder="e.g., Python, JavaScript, Design">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="linkedin">LinkedIn</label>
+                            <input type="url" name="linkedin" id="linkedin" value="{{ instructor_profile.linkedin|default_if_none:'' }}" placeholder="https://linkedin.com/in/yourprofile">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="github">GitHub</label>
+                            <input type="url" name="github" id="github" value="{{ instructor_profile.github|default_if_none:'' }}" placeholder="https://github.com/yourusername">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="website">Website</label>
+                            <input type="url" name="website" id="website" value="{{ instructor_profile.website|default_if_none:'' }}" placeholder="https://yourwebsite.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="verification_status">Verification Status</label>
+                            <div class="status-badge {% if instructor_profile.is_verified %}verified{% else %}pending{% endif %}">
+                                <i class="fas {% if instructor_profile.is_verified %}fa-check-circle{% else %}fa-clock{% endif %} me-2"></i>
+                                {{ instructor_profile.is_verified|yesno:"Verified,Pending" }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="editButton" class="update-btn">
+                            <i class="fas fa-save me-2"></i>
+                            Update Profile
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
+    </div>
 
-            <table class="table table-bordered">
-                <tr>
-                    <th>Username</th>
-                    <td>{{ user.username }}</td>
-                </tr>
-                <tr>
-                    <th>First Name</th>
-                    <td><input type="text" name="first_name" id="first_name" class="form-control" value="{{ user.first_name|default_if_none:'' }}"></td>
-                </tr>
-                <tr>
-                    <th>Last Name</th>
-                    <td><input type="text" name="last_name" id="last_name" class="form-control" value="{{ user.last_name|default_if_none:'' }}"></td>
-                </tr>
-                <tr>
-                    <th>Email</th>
-                    <td>{{ user.email }}</td>
-                </tr>
-                <tr>
-                    <th>Bio</th>
-                    <td><textarea name="bio" id="bio" class="form-control">{{ instructor_profile.bio|default_if_none:'' }}</textarea></td>
-                </tr>
-                <tr>
-                    <th>Experience (years)</th>
-                    <td><input type="number" name="experience" id="experience" class="form-control" value="{{ instructor_profile.experience|default_if_none:'' }}"></td>
-                </tr>
-                <tr>
-                    <th>Skills</th>
-                    <td><input type="text" name="skills" id="skills" class="form-control" value="{{ instructor_profile.skills|default_if_none:'' }}"></td>
-                </tr>
-                <tr>
-                    <th>LinkedIn</th>
-                    <td><input type="url" name="linkedin" id="linkedin" class="form-control" value="{{ instructor_profile.linkedin|default_if_none:'' }}"></td>
-                </tr>
-                <tr>
-                    <th>GitHub</th>
-                    <td><input type="url" name="github" id="github" class="form-control" value="{{ instructor_profile.github|default_if_none:'' }}"></td>
-                </tr>
-                <tr>
-                    <th>Website</th>
-                    <td><input type="url" name="website" id="website" class="form-control" value="{{ instructor_profile.website|default_if_none:'' }}"></td>
-                </tr>
-                <tr>
-                    <th>Verification Status</th>
-                    <td>{{ instructor_profile.is_verified|yesno:"Verified,Pending" }}</td>
-                </tr>
-            </table>
-            <button id="editButton" class="btn btn-primary">Update Profile</button>
-        </div>
+    <!-- Inline CSS for Profile Light Theme -->
+    <style>
+    .profile-page {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 2rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                let editButton = document.getElementById("editButton");
+    .profile-container {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .profile-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 25px;
+        padding: 3rem;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .profile-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .profile-title {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #667eea;
+        margin-bottom: 0.5rem;
+    }
+
+    .profile-subtitle {
+        color: #7f8c8d;
+        font-size: 1.1rem;
+        margin: 0;
+    }
+
+    .profile-picture-section {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .profile-picture-container {
+        margin-bottom: 1rem;
+    }
+
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #667eea;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .profile-picture-placeholder {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        font-size: 4rem;
+        color: white;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .picture-upload {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .file-input {
+        display: none;
+    }
+
+    .upload-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .upload-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .profile-form {
+        width: 100%;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group.full-width {
+        grid-column: 1 / -1;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #4b5563;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        border-radius: 12px;
+        border: 1.5px solid #e0e7ef;
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
+        background: rgba(245, 247, 250, 0.7);
+        color: #2c3e50;
+        transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+    }
+
+    .form-group input[readonly] {
+        background: rgba(245, 247, 250, 0.5);
+        color: #7f8c8d;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .status-badge.verified {
+        background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+        color: white;
+    }
+
+    .status-badge.pending {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+    }
+
+    .form-actions {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .update-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 1rem 2.5rem;
+        border-radius: 15px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .update-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    @media (max-width: 768px) {
+        .profile-card {
+            padding: 2rem 1rem;
+        }
         
-                if (editButton) {
-                    editButton.addEventListener("click", function () {
-                        let first_name = document.getElementById("first_name").value;
-                        let last_name = document.getElementById("last_name").value;
-                        let bio = document.getElementById("bio").value;
-                        let experience = document.getElementById("experience").value;
-                        let skills = document.getElementById("skills").value;
-                        let linkedin = document.getElementById("linkedin").value;
-                        let github = document.getElementById("github").value;
-                        let website = document.getElementById("website").value;
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
         
-                        fetch("{% url 'update_instructor_profile' %}", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "X-CSRFToken": "{{ csrf_token }}"
-                            },
-                            body: JSON.stringify({
-                                first_name: first_name,
-                                last_name: last_name,
-                                bio: bio,
-                                experience: experience,
-                                skills: skills,
-                                linkedin: linkedin,
-                                github: github,
-                                website: website
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert("Profile updated successfully!");
-                                location.reload();  // Refresh page to reflect changes
-                            } else {
-                                alert("Error updating profile.");
-                            }
-                        })
-                        .catch(error => console.error("Error:", error));
-                    });
-                } else {
-                    console.error("Edit button not found!");
-                }
-            });
+        .profile-title {
+            font-size: 1.8rem;
+        }
+    }
+    </style>
 
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let editButton = document.getElementById("editButton");
+        let uploadButton = document.getElementById("uploadProfilePicture");
+        let fileInput = document.getElementById("profilePictureInput");
 
-                    // Profile Picture Upload
-        document.getElementById("uploadProfilePicture").addEventListener("click", function () {
-            let fileInput = document.getElementById("profilePictureInput");
-            let file = fileInput.files[0];
+        if (editButton) {
+            editButton.addEventListener("click", function () {
+                let first_name = document.getElementById("first_name").value;
+                let last_name = document.getElementById("last_name").value;
+                let bio = document.getElementById("bio").value;
+                let experience = document.getElementById("experience").value;
+                let skills = document.getElementById("skills").value;
+                let linkedin = document.getElementById("linkedin").value;
+                let github = document.getElementById("github").value;
+                let website = document.getElementById("website").value;
 
-            if (file) {
-                let formData = new FormData();
-                formData.append("profile_picture", file);
-
-                fetch("{% url 'update_profile_picture' %}", {
+                fetch("{% url 'update_instructor_profile' %}", {
                     method: "POST",
                     headers: {
+                        "Content-Type": "application/json",
                         "X-CSRFToken": "{{ csrf_token }}"
                     },
-                    body: formData
+                    body: JSON.stringify({
+                        first_name: first_name,
+                        last_name: last_name,
+                        bio: bio,
+                        experience: experience,
+                        skills: skills,
+                        linkedin: linkedin,
+                        github: github,
+                        website: website
+                    })
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert("Profile picture updated successfully!");
-                        document.getElementById("profileImage").src = data.profile_picture_url;
+                        alert("Profile updated successfully!");
+                        location.reload();
                     } else {
-                        alert("Error updating profile picture.");
+                        alert("Error updating profile.");
                     }
                 })
-                .catch(error => console.error("Error:", error));
-            } else {
-                alert("Please select an image file to upload.");
-            }
-        });
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("Error updating profile. Please try again.");
+                });
+            });
+        }
 
-        </script>
-        
+        if (uploadButton && fileInput) {
+            uploadButton.addEventListener("click", function () {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener("change", function () {
+                let file = this.files[0];
+                if (file) {
+                    let formData = new FormData();
+                    formData.append("profile_picture", file);
+
+                    fetch("{% url 'update_profile_picture' %}", {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": "{{ csrf_token }}"
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Profile picture updated successfully!");
+                            if (document.getElementById("profileImage")) {
+                                document.getElementById("profileImage").src = data.profile_picture_url;
+                            } else {
+                                location.reload();
+                            }
+                        } else {
+                            alert("Error updating profile picture.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("Error updating profile picture. Please try again.");
+                    });
+                } else {
+                    alert("Please select an image file to upload.");
+                }
+            });
+        }
+    });
+    </script>
 
     {% endblock %}

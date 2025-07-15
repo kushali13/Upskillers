@@ -3,73 +3,694 @@
 {% block title %}Instructor Dashboard{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="instructor-dashboard">
     <!-- Welcome Section -->
-    <div class="card shadow-sm p-4 mb-4 bg-white rounded">
-        <h2>Welcome {{ request.user.first_name }}!</h2>
-        <p class="text-muted">Manage your courses and learners from here.</p>
+    <div class="welcome-section">
+        <div class="welcome-content">
+            <div class="welcome-text">
+                <h1 class="welcome-title">
+                    Welcome back, <span class="highlight">{{ request.user.first_name }}</span>! 👋
+                </h1>
+                <p class="welcome-subtitle">Ready to inspire and educate? Let's create amazing learning experiences together.</p>
+            </div>
+            <div class="welcome-illustration">
+                <div class="floating-elements">
+                    <div class="floating-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="floating-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="floating-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Dashboard Stats -->
-    <div class="row text-center">
-        <div class="col-md-4">
-            <div class="card shadow-sm p-3 mb-4 bg-primary text-white">
-                <h4>Total Courses</h4>
-                <h2>{{ instructor_courses|length }}</h2>
+    <div class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card primary">
+                <div class="stat-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-number">{{ instructor_courses|length }}</h3>
+                    <p class="stat-label">Total Courses</p>
+                </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card shadow-sm p-3 mb-4 bg-success text-white">
-                <h4>Total Students Enrolled</h4>
-                <h2>{{ total_enrolled_students }}</h2>
+            
+            <div class="stat-card success">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-number">{{ total_enrolled_students }}</h3>
+                    <p class="stat-label">Students Enrolled</p>
+                </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card shadow-sm p-3 mb-4 bg-warning text-white">
-                <h4>Active Courses</h4>
-                <h2>{{ active_courses }}</h2>
+            
+            <div class="stat-card warning">
+                <div class="stat-icon">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-number">{{ active_courses }}</h3>
+                    <p class="stat-label">Active Courses</p>
+                </div>
+            </div>
+            
+            <div class="stat-card info">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-number">4.8</h3>
+                    <p class="stat-label">Average Rating</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Course List Section -->
-    <div class="card shadow-sm p-4 mb-4">
-        <h3>My Courses</h3>
+    <!-- Course Management Section -->
+    <div class="courses-section">
+        <div class="section-header">
+            <h2 class="section-title">
+                <i class="fas fa-list-ul me-2"></i>
+                My Courses
+            </h2>
+            <a href="{% url 'add_course' %}" class="add-course-btn">
+                <i class="fas fa-plus me-2"></i>
+                Add New Course
+            </a>
+        </div>
+
         {% if instructor_courses %}
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Course</th>
-                    <th>Enrolled Students</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for course in instructor_courses %}
-                <tr>
-                    <td>{{ course.title }}</td>
-                    <td>{{ course.enrolled_students }}</td>
-                    <td>{{ course.start_date }}</td>
-                    <td>{{ course.end_date }}</td>
-                    <td>
-                        <a href="{% url 'edit_course' course.id %}" class="btn btn-sm btn-info">Edit</a>
-                        <a href="" class="btn btn-sm btn-danger">Delete</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="courses-grid">
+            {% for course in instructor_courses %}
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="course-status active">
+                        <i class="fas fa-circle"></i>
+                        Active
+                    </div>
+                </div>
+                
+                <div class="course-content">
+                    <h3 class="course-title">{{ course.title }}</h3>
+                    <p class="course-description">{{ course.description|truncatewords:15 }}</p>
+                    
+                    <div class="course-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-users"></i>
+                            <span>{{ course.enrolled_students }} students</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>{{ course.start_date|date:"M d" }} - {{ course.end_date|date:"M d" }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-actions">
+                    <a href="{% url 'edit_course' course.id %}" class="action-btn edit">
+                        <i class="fas fa-edit"></i>
+                        Edit
+                    </a>
+                    <button class="action-btn delete">
+                        <i class="fas fa-trash"></i>
+                        Delete
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
         {% else %}
-        <p class="text-muted">You haven't created any courses yet.</p>
+        <div class="empty-state">
+            <div class="empty-icon">
+                <i class="fas fa-book-open"></i>
+            </div>
+            <h3>No courses yet</h3>
+            <p>Start your teaching journey by creating your first course!</p>
+            <a href="{% url 'add_course' %}" class="create-first-btn">
+                <i class="fas fa-plus me-2"></i>
+                Create Your First Course
+            </a>
+        </div>
         {% endif %}
     </div>
 
-    <!-- Add Course Button -->
-    <div class="text-center">
-        <a href="{% url 'add_course' %}" class="btn btn-primary">Add New Course</a>
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <h3 class="section-title">
+            <i class="fas fa-bolt me-2"></i>
+            Quick Actions
+        </h3>
+        <div class="actions-grid">
+            <a href="{% url 'add_course' %}" class="action-card">
+                <div class="action-icon">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <h4>Create Course</h4>
+                <p>Start building a new learning experience</p>
+            </a>
+            
+            <a href="{% url 'instructor_profile' %}" class="action-card">
+                <div class="action-icon">
+                    <i class="fas fa-user-edit"></i>
+                </div>
+                <h4>Edit Profile</h4>
+                <p>Update your instructor information</p>
+            </a>
+        </div>
     </div>
 </div>
+
+<!-- Inline CSS for Light Theme -->
+<style>
+/* Instructor Dashboard Light Theme */
+.instructor-dashboard {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 2rem 0;
+    position: relative;
+}
+
+.instructor-dashboard::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(255, 182, 193, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(173, 216, 230, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 218, 185, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Welcome Section */
+.welcome-section {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 3rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.welcome-text {
+    flex: 1;
+}
+
+.welcome-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.highlight {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.welcome-subtitle {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    font-weight: 500;
+    margin: 0;
+}
+
+.welcome-illustration {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.floating-elements {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.floating-icon {
+    position: absolute;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    animation: float 6s ease-in-out infinite;
+}
+
+.floating-icon:nth-child(1) {
+    top: 20%;
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.floating-icon:nth-child(2) {
+    top: 60%;
+    right: 20%;
+    animation-delay: 2s;
+}
+
+.floating-icon:nth-child(3) {
+    bottom: 20%;
+    left: 50%;
+    animation-delay: 4s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Stats Section */
+.stats-section {
+    margin-bottom: 2rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.stat-card.primary .stat-icon {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.stat-card.success .stat-icon {
+    background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+}
+
+.stat-card.warning .stat-icon {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.stat-card.info .stat-icon {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #2c3e50;
+    margin: 0 0 0.5rem 0;
+}
+
+.stat-label {
+    color: #7f8c8d;
+    font-weight: 600;
+    margin: 0;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Courses Section */
+.courses-section {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.add-course-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.add-course-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    color: white;
+}
+
+/* Courses Grid */
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.course-card {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.course-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.course-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.course-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #27ae60;
+}
+
+.course-status i {
+    font-size: 0.6rem;
+}
+
+.course-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.course-description {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.course-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: #7f8c8d;
+}
+
+.course-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.action-btn.edit {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+}
+
+.action-btn.delete {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    color: white;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+}
+
+.empty-icon {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    color: white;
+    font-size: 2.5rem;
+}
+
+.empty-state h3 {
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #7f8c8d;
+    margin-bottom: 1.5rem;
+}
+
+.create-first-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.create-first-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    color: white;
+}
+
+/* Quick Actions */
+.quick-actions {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.action-card {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    color: inherit;
+}
+
+.action-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.action-card h4 {
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.action-card p {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .welcome-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .welcome-title {
+        font-size: 2rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .actions-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .welcome-illustration {
+        display: none;
+    }
+}
+
+/* Animation Enhancements */
+.stat-card, .course-card, .action-card {
+    animation: slideInUp 0.6s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover Effects */
+.stat-card:hover .stat-icon {
+    transform: scale(1.1);
+}
+
+.course-card:hover .course-icon {
+    transform: scale(1.1);
+}
+
+.action-card:hover .action-icon {
+    transform: scale(1.1);
+}
+</style>
 
 {% endblock %}

@@ -33,8 +33,11 @@
             </div>
         </div>
 
-        <!-- Right: Video Section -->
+        <!-- Right: Image + Video Section -->
         <div class="col-lg-6 order-1 order-lg-2 mb-4">
+            <div class="course-detail-img-card-light mb-3">
+                <img src="{{ course.image.url }}" alt="{{ course.title }}" class="course-detail-img-light">
+            </div>
             <div class="ratio ratio-16x9 rounded shadow-lg">
                 <video class="w-100 rounded" controls>
                     <source src="{{ course.video.url }}" type="video/mp4">
@@ -105,4 +108,25 @@
         </div>
     {% endif %}
 </div>
+
+<style>
+.course-detail-img-card-light {
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+    box-shadow: 0 6px 24px rgba(102,126,234,0.10);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.course-detail-img-light {
+    width: 100%;
+    max-width: 420px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 2px 12px rgba(102,126,234,0.08);
+    filter: none;
+}
+</style>
 {% endblock %}
